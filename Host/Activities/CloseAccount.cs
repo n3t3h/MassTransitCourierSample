@@ -1,28 +1,17 @@
+using System;
 using System.Threading.Tasks;
 using MassTransit.Courier;
+using Host.Contracts;
 
 namespace Host
 {
-    public class CloseAccountArguments
+    public class CloseAccount : ExecuteActivity<CloseAccountArguments>
     {
-
-    }
-
-    public class CloseAccountLog
-    {
-
-    }
-
-    public class CloseAccount : Activity<CloseAccountArguments, CloseAccountLog>
-    {
-        public Task<CompensationResult> Compensate(CompensateContext<CloseAccountLog> context)
+        public async Task<ExecutionResult> Execute(ExecuteContext<CloseAccountArguments> context)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<ExecutionResult> Execute(ExecuteContext<CloseAccountArguments> context)
-        {
-            throw new System.NotImplementedException();
+            var args = context.Arguments;
+            await Console.Out.WriteLineAsync($"Closing the account for {args.Username}.");
+            return context.Completed();
         }
     }
 }

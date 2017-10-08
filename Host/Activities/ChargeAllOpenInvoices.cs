@@ -1,28 +1,18 @@
 using System.Threading.Tasks;
+using System;
+using System.IO;
 using MassTransit.Courier;
+using Host.Contracts;
 
 namespace Host
 {
-    public class ChargeAllOpenInvoicesArguments
+    public class ChargeAllOpenInvoices : ExecuteActivity<ChargeAllOpenInvoicesArguments>
     {
-
-    }
-
-    public class ChargeAllOpenInvoicesLog
-    {
-
-    }
-
-    public class ChargeAllOpenInvoices : Activity<ChargeAllOpenInvoicesArguments, ChargeAllOpenInvoicesLog>
-    {
-        public Task<CompensationResult> Compensate(CompensateContext<ChargeAllOpenInvoicesLog> context)
+        public async Task<ExecutionResult> Execute(ExecuteContext<ChargeAllOpenInvoicesArguments> context)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<ExecutionResult> Execute(ExecuteContext<ChargeAllOpenInvoicesArguments> context)
-        {
-            throw new System.NotImplementedException();
+            var args = context.Arguments;
+            await Console.Out.WriteLineAsync($"Charging all open invoices for {args.Username}.");
+            return context.Completed();
         }
     }
 }

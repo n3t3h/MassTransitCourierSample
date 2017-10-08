@@ -1,29 +1,18 @@
+using System;
 using System.Threading.Tasks;
 using MassTransit;
 using MassTransit.Courier;
+using Host.Contracts;
 
 namespace Host
 {
-    public class GenerateFinalProratedInvoiceArguments
+    public class GenerateFinalProratedInvoice : ExecuteActivity<GenerateFinalProratedInvoiceArguments>
     {
-
-    }
-
-    public class GenerateFinalProratedInvoiceLog
-    {
-
-    }
-
-    public class GenerateFinalProratedInvoice : Activity<GenerateFinalProratedInvoiceArguments, GenerateFinalProratedInvoiceLog>
-    {
-        public Task<CompensationResult> Compensate(CompensateContext<GenerateFinalProratedInvoiceLog> context)
+        public async Task<ExecutionResult> Execute(ExecuteContext<GenerateFinalProratedInvoiceArguments> context)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<ExecutionResult> Execute(ExecuteContext<GenerateFinalProratedInvoiceArguments> context)
-        {
-            throw new System.NotImplementedException();
+            var args = context.Arguments;
+            await Console.Out.WriteLineAsync($"Generated final prorated invoice for {args.Username}.");
+            return context.Completed();
         }
     }
 }
